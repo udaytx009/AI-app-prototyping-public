@@ -1,0 +1,10 @@
+# Workspace version: 1.45.28
+ipykernel==6.29.5
+databutton==0.38.34
+uvicorn[standard]==0.29.0
+fastapi==0.115.2
+python-multipart==0.0.9
+openai
+beautifulsoup4
+requests
+yt-dlp
