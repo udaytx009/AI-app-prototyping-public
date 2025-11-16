@@ -1,7 +1,7 @@
 # AI-app-prototyping-public
 here i am posting various agentic apps that are built on OpenAI APIs to perform a wide range of tasks starting from goal tracking, server management, business engagements and many more...
 
-## Project 1/20 :
+## Project 1/20+ :
 
 # GoalSpace app
 
