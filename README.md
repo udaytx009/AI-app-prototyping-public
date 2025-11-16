@@ -1,6 +1,8 @@
 # AI-app-prototyping-public
 here i am posting various agentic apps that are built on OpenAI APIs to perform a wide range of tasks starting from goal tracking, server management, business engagements and many more...
 
+## Update Try Out easy GH sync, demo interface : https://atxinfotech.riff.works/gh-repo-sync ; you can get your own private syncing interface to sync codes from local to GH uing browser for free!
+
 ## Project 1/20+ :
 
 # GoalSpace app
