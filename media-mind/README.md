@@ -1,6 +1,6 @@
-# Databutton app
+# Media Mind - Online scrolling for education
 
-This project consists of a FastAPI backend server and a React + TypeScript frontend application exported from Databutton.
+This project consists of a FastAPI backend server and a React + TypeScript frontend application.
 
 ## Stack
 
