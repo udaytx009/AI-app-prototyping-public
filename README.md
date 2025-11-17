@@ -1,7 +1,9 @@
 # AI-app-prototyping-public
 here i am posting various agentic apps that are built on OpenAI APIs to perform a wide range of tasks starting from goal tracking, server management, business engagements and many more...
 
-## New Update : Try Out an easy fast GitHub sync app (demo interface access) to simplify your code management from desktop. Start Here : https://atxinfotech.riff.works/gh-repo-sync ; you can get your own private syncing interface to sync codes from local to GH uing browser for free (message for your private copy). Test the public app by selecting codes from your local machine and push it to this repo - https://github.com/udaytx009/AI-app-prototyping-public/
+## New Update : Simplify your code management from your desktop with our easy and fast GitHub sync app. Access the demo interface and get started now.
+### Get your own private, browser-based syncing interface for free to manage code from local to GitHub (message for details). App Demo : https://atxinfotech.riff.works/gh-repo-sync
+### Test the public app: select code from your local machine and push it to this repository: https://github.com/udaytx009/AI-app-prototyping-public/
 
 ## Project 1/20+ :
 
