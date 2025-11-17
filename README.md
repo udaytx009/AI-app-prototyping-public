@@ -1,5 +1,5 @@
 # AI-app-prototyping-public (Education, Business and Innovation Focused)
-here i am posting various agentic apps that are built on OpenAI APIs to perform a wide range of tasks starting from goal tracking, server management, business engagements and many more...
+Here I am posting various agentic applications that are built on OpenAI APIs to perform a wide range of tasks, starting from goal tracking and server management to business engagements and many more.
 
 ## New Update : Simplify your code management from your desktop with our easy and fast GitHub sync app. Access the demo interface and get started now.
 ### Get your own private, browser-based syncing interface for free to manage code from local to GitHub (message for details). App Demo : https://atxinfotech.riff.works/gh-repo-sync
