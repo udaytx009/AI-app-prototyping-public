@@ -5,9 +5,6 @@ Here I am posting various agentic applications that are built on OpenAI APIs to 
 ### Get your own private, browser-based syncing interface for free to manage code from local to GitHub (message for details). App Demo : https://atxinfotech.riff.works/gh-repo-sync
 ### Test the public app: select code from your local machine and push it to this repository: https://github.com/udaytx009/AI-app-prototyping-public/
 
-<img width="810" height="601" alt="image" src="https://github.com/user-attachments/assets/01294299-b049-44e6-a641-f69031d074c3" />
-
-
 ## Innovative Project(s) 1/20+ :
 
 # GoalSpace app
