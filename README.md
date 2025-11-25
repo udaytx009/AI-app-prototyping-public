@@ -1,4 +1,4 @@
-# AI-app-prototyping-public (Education, Business and Innovation Focused)
+# AI-app-prototyping-public (Education, Business and Innovation Focused) - Learning & Exploring for fun!
 Here I am posting various agentic applications that are built on OpenAI APIs to perform a wide range of tasks, starting from goal tracking and server management to business engagements and many more.
 
 ## New Update : Simplify your code management from your desktop with our easy and fast GitHub sync app. Access the demo interface and get started now.
