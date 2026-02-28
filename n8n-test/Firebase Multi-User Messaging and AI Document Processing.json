@@ -1,0 +1,528 @@
+{
+  "name": "Firebase Multi-User Messaging and AI Document Processing",
+  "nodes": [
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.action }}",
+                    "rightValue": "manage_user",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.action }}",
+                    "rightValue": "store_message",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.action }}",
+                    "rightValue": "share_document",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.action }}",
+                    "rightValue": "process_ai",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "bc19612a-bb49-427d-9061-9eec17f5a870",
+      "name": "Route by Action",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        160,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyA0_HU8EKwRfeE0j8zjpjw-QtpX9QZZYo4",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "email",
+              "value": "={{ $json.email }}"
+            },
+            {
+              "name": "password",
+              "value": "={{ $json.password }}"
+            }
+          ]
+        },
+        "options": {},
+        "infoMessage": "IMPORTANT: Before using this node, enable Email/Password authentication in Firebase Console:\n1. Go to https://console.firebase.google.com/project/n8n-buildo-89d25/authentication/providers\n2. Click on Email/Password provider\n3. Enable it and save\n\nThe API key is already configured from your Firebase project settings."
+      },
+      "id": "4662feee-5399-41f4-b833-e5f044150948",
+      "name": "Firebase Auth - Manage User",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        384,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "folderId": "default",
+        "title": "={{ $json.documentTitle || \"Shared Document\" }}"
+      },
+      "id": "4f85f38e-137b-41df-9588-938f94d0ddda",
+      "name": "Create Shared Document",
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        384,
+        688
+      ],
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "YGGElIcME2JOqLNc",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "id": "id-1",
+              "leftValue": "={{ Object.keys($binary).length }}",
+              "rightValue": "0",
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "2612e3da-83df-4c4b-8c33-04037f95459d",
+      "name": "Check Input Type",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        384,
+        496
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "options": {}
+      },
+      "id": "0fa59d97-476b-4d3e-bb19-8f66b954bf80",
+      "name": "Extract Text from File",
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        608,
+        432
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.text || $json.message }}",
+        "options": {
+          "systemMessage": "You are an AI assistant that processes text messages and file content. Analyze the input and provide insights, summaries, or transformations as requested."
+        }
+      },
+      "id": "0dd1661c-367e-47a2-b988-f2eb5c82b296",
+      "name": "AI Agent - Process Content",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        832,
+        496
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "id",
+          "value": "gpt-4o-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "id": "5fadb335-046c-4408-9ddf-24ab535f3d4d",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        912,
+        720
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "GRFR6ZSfc6XjsSNR",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "id-1",
+              "name": "action",
+              "value": "manage_user",
+              "type": "string"
+            },
+            {
+              "id": "id-2",
+              "name": "email",
+              "value": "newuser2@example.com",
+              "type": "string"
+            },
+            {
+              "id": "id-3",
+              "name": "password",
+              "value": "SecurePass123!",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "0cc00bbc-233f-484d-a8fc-e43f3b3df149",
+      "name": "Test 1: Manage User",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -64,
+        496
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "id-1",
+              "name": "action",
+              "value": "store_message",
+              "type": "string"
+            },
+            {
+              "id": "id-2",
+              "name": "userId",
+              "value": "user456",
+              "type": "string"
+            },
+            {
+              "id": "id-3",
+              "name": "message",
+              "value": "Hello from the test workflow! This message will be stored in Firestore.",
+              "type": "string"
+            },
+            {
+              "id": "id-4",
+              "name": "timestamp",
+              "value": "={{ $now.toISO() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "67711319-eac4-4c14-9297-ed743d6e2173",
+      "name": "Test 2: Store Message",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -64,
+        880
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "id-1",
+              "name": "action",
+              "value": "share_document",
+              "type": "string"
+            },
+            {
+              "id": "id-2",
+              "name": "documentTitle",
+              "value": "AI Processing Results - Test Document",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "31e178b3-d63a-4747-bc8e-f6a14320d287",
+      "name": "Test 3: Share Document",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -64,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "duplicateItem": true,
+        "duplicateCount": 4,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "id-1",
+              "name": "action",
+              "value": "process_ai",
+              "type": "string"
+            },
+            {
+              "id": "id-2",
+              "name": "message",
+              "value": "This is a test message for AI processing. Please analyze this text and provide insights.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "1e92c774-479c-4432-9794-5318e0a57433",
+      "name": "Test 4: AI Processing",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -64,
+        688
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "operation": "create",
+        "projectId": "n8n-buildo-89d25",
+        "collection": "messages",
+        "columns": "userId, message, timestamp"
+      },
+      "id": "a5626b24-7c1b-4d22-a4e9-f550d5f02761",
+      "name": "Store Message in Firestore",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1.1,
+      "position": [
+        384,
+        880
+      ],
+      "credentials": {
+        "googleApi": {
+          "id": "i44fVy6y02ghDSQt",
+          "name": "Google Firebase Cloud Firestore account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Route by Action": {
+      "main": [
+        [
+          {
+            "node": "Firebase Auth - Manage User",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Store Message in Firestore",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create Shared Document",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Check Input Type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Input Type": {
+      "main": [
+        [
+          {
+            "node": "Extract Text from File",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "AI Agent - Process Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Text from File": {
+      "main": [
+        [
+          {
+            "node": "AI Agent - Process Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent - Process Content",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Test 1: Manage User": {
+      "main": [
+        [
+          {
+            "node": "Route by Action",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Test 4: AI Processing": {
+      "main": [
+        [
+          {
+            "node": "Route by Action",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Test 2: Store Message": {
+      "main": [
+        [
+          {
+            "node": "Route by Action",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Test 3: Share Document": {
+      "main": [
+        [
+          {
+            "node": "Route by Action",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "availableInMCP": false
+  },
+  "versionId": "28ea59ac-8f78-4464-8d8b-54e17f9a7ba7",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "8ceb2cfa7f44826d512894f4f554d4d710a867113ea2e7e2ff6504de786f9922"
+  },
+  "id": "YjnMNfxlzhYn116n",
+  "tags": []
+}
